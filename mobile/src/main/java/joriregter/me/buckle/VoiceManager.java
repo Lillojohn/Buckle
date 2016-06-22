@@ -184,24 +184,7 @@ public class VoiceManager extends AppCompatActivity {
 
 
     public void handleNavigation(JSONObject json, String said) {
-        try {
-            JSONArray myArray = json.getJSONArray("items");
-
-            if (myArray.length() != 0) {
-                for (int i = 0; i < myArray.length(); i++) {
-                    JSONObject object = myArray.getJSONObject(i);
-
-                    if (object.getString("title") == said) {
-                        confirmNavigation(said);
-                    } else {
-                        // Zeg dat deze locatie niet bestaat en vraag opniuew
-                    }
-                }
-            }
-
-        } catch (JSONException e) {
-            e.getStackTrace();
-        }
+        _mainclass.goToNavigation();
     }
 
 

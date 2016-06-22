@@ -18,8 +18,13 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         ConcurrentLinkedQueue<LatLng> path = new ConcurrentLinkedQueue<LatLng>();
-//        path.offer(new LatLng());
-//        _nvm.setPath(path);
+        path.offer(new LatLng(51.91743177916416, 4.4847780023094534));
+        path.offer(new LatLng(51.91737568535439, 4.484417757997191));
+        path.offer(new LatLng(51.9173855429331, 4.484439036201519));
+        _nvm.setPath(path);
+
+        VibrationManager vm = new VibrationManager(this);
+        _nvm.addObserver(vm);
     }
 
     @Override

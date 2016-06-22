@@ -104,4 +104,9 @@ public class MainActivity extends AppCompatActivity implements Observer {
             tlong.setText(((LatLng) data).longitude + "");
         }
     }
+
+    public void goToNavigation(){
+        Intent i = new Intent(this, NavigationActivity.class);
+        startActivity(i);
+    }
 }

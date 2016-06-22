@@ -39,8 +39,6 @@ public class PostLocation extends AsyncTask<String,Void,Void> {
         try {
             HttpPost post = new HttpPost(uri);
             LatLng latlng = nvm.get_lastLocation();
-            System.out.println(latlng);
-
 
             coordinate.put("lat", latlng.latitude);
             coordinate.put("lng", latlng.longitude);

@@ -1,5 +1,6 @@
 package joriregter.me.buckle;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -28,8 +29,11 @@ import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 public class VibrationManager implements
+        Observer,
         DataApi.DataListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -37,6 +41,7 @@ public class VibrationManager implements
     private static VibrationManager _vibrationManager;
     private Vibrator _vibrator;
     private static final String TAG = "VIBRATOR_MANAGER";
+    private Activity _parentActivity;
 
     private GoogleApiClient _googleApiClient;
     private DataApi _dataApi;
@@ -48,7 +53,7 @@ public class VibrationManager implements
             .addOnConnectionFailedListener(this)
             .addApi(Wearable.API) // Add Wearable API
             .build();
-
+        _parentActivity = activity;
         _googleApiClient.connect();
     }
 
@@ -67,31 +72,29 @@ public class VibrationManager implements
         long[] PATTERN;
         switch (message) {
             case Left: {
-                PATTERN = new long[]{0, 1000};
-                updateWear(PATTERN);
+                PebbleManager.vibratePebble(_parentActivity, "left");
                 break;
             }
             case Right: {
-                PATTERN = new long[]{0, 1000};
+                PATTERN = new long[]{0, 300};
                 _vibrator.vibrate(PATTERN, -1);
                 break;
             }
             case Arrived: {
                 PATTERN = new long[]{200, 1000, 200, 500};
                 _vibrator.vibrate(PATTERN, -1);
-                updateWear(PATTERN);
+//                PebbleManager.vibratePebble(this, "arrived");
                 break;
             }
             case Stairs: {
                 PATTERN = new long[]{200, 200, 200, 1000};
                 _vibrator.vibrate(PATTERN, -1);
-                updateWear(PATTERN);
                 break;
             }
             case Door: {
                 PATTERN = new long[]{200, 500, 200, 500};
                 _vibrator.vibrate(PATTERN, -1);
-                updateWear(PATTERN);
+//                PebbleManager.vibratePebble(this, "door");
                 break;
             }
             default: {
@@ -123,5 +126,13 @@ public class VibrationManager implements
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "Failed to connect to wear.");
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if (data instanceof VibrateMessage) {
+            Log.d(TAG, "The received data is a VibrationMessage");
+            vibrateMessage((VibrateMessage) data);
+        }
     }
 }

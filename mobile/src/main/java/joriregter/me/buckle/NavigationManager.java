@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class NavigationManager extends Observable implements IALocationListener, SensorEventListener {
     private final String TAG = "NAVMAN";
     private final double PROXIMITY_MARGIN = 0.00003;
-    private final double ORIENTATION_MARGIN = 5;
+    private final double ORIENTATION_MARGIN = 10;
 
     private static NavigationManager _nvm;
     private Sensor mOrientation;
@@ -69,11 +69,8 @@ public class NavigationManager extends Observable implements IALocationListener,
                 iaLocation.getLatitude(),
                 iaLocation.getLongitude()
         );
-        Log.d(TAG, "Latitude: " + currentLocation.latitude);
-        Log.d(TAG, "Longitude: " + currentLocation.longitude);
 
         if (_navigating && atWaypoint(currentLocation, _nextWaypoint)) {
-            Log.d(TAG, "Next waypoint within vicinity: " + atWaypoint(currentLocation, _nextWaypoint));
             updateNextWaypoint();
         }
 
@@ -84,8 +81,6 @@ public class NavigationManager extends Observable implements IALocationListener,
                 notifyObservers(poi.get_messageType());
             }
         }
-
-        Log.d(TAG, "------------------");
         setChanged();
         notifyObservers(currentLocation);
         _lastLocation = currentLocation;
@@ -129,12 +124,10 @@ public class NavigationManager extends Observable implements IALocationListener,
             setChanged();
             // Higher is clockwise, on a compass that is turning right
             if (direction > 0) {
-                Log.d(TAG, "Turn Right");
                 notifyObservers(VibrateMessage.Right);
             }
             // Lower is counterclockwise, on a compass that is turning left
             else {
-                Log.d(TAG, "Turn Left");
                 notifyObservers(VibrateMessage.Left);
             }
         }
