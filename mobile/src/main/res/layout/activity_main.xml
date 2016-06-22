@@ -9,8 +9,34 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="joriregter.me.buckle.MainActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="command"
+        android:id="@+id/button_command"
+        android:layout_marginTop="123dp"
+        android:onClick="onScreenClick"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Lat"
+        android:id="@+id/text_Lat"
+        android:layout_marginTop="57dp"
+        android:layout_below="@+id/button_command"
+        android:layout_alignStart="@+id/button_command" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Long"
+        android:id="@+id/text_Long"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/text_Lat"
+        android:layout_alignStart="@+id/text_Lat" />
+
 </RelativeLayout>
